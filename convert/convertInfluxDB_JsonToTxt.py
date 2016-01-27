@@ -42,6 +42,7 @@ def getJsonData(file_name):
     return tables_name, data, columns
 
 def timedateToTimestamp(date_time):
+    print repr(date_time)
     dt=date_time.split('T')
     date=dt[0].split('-')
     year=int(date[0])
@@ -52,7 +53,12 @@ def timedateToTimestamp(date_time):
     minutes=int(time[1])
     sec=time[2].split('.')
     seconds=int(sec[0])
-    return str(int(mktime(datetime.datetime(year, month, day, hours, minutes, seconds).timetuple())))
+    timestamp=str(int(mktime(datetime.datetime(year, month, day, hours, minutes, seconds).timetuple())))
+    if len(sec) > 1:
+        ms=sec[1]
+    else:
+        ms = '000000000'
+    return timestamp + str(ms)
 
 def writeFile(file_name, tables_name, data, columns):
     f = open(file_name_output, 'w+')
